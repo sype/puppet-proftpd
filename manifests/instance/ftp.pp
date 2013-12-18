@@ -25,7 +25,7 @@ define proftpd::instance::ftp(
     fail("Proftpd::Instance::Ftp[${title}]: parameter logdir must be defined")
   }
 
-  $vhost_name = "${ipaddress}_${port}"
+  $vhost_name = "${server_name}"
 
   if ! defined(File["${logdir}/proftpd"]) {
     file { "${logdir}/proftpd":

@@ -8,7 +8,7 @@ define proftpd::instance::group(
 
   include proftpd
 
-  $vhost_name = "${ipaddress}_${port}"
+  $vhost_name = "${server_name}"
 
   if ($gid == undef) {
     $gid_real = '5001'
