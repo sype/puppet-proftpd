@@ -12,11 +12,7 @@
 #
 class proftpd {
 
-<<<<<<< HEAD
   package { ['proftpd','proftpd-basic','proftpd-mod-mysql']:
-=======
-  package { ['proftpd','proftpd-mysql','proftpd-postgresql']:
->>>>>>> c293c67ebb985438d2cee9a7c6523b88f9a42977
     ensure => present
   }
 
