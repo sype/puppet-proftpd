@@ -51,6 +51,16 @@ class proftpd {
     require => File['/etc/proftpd']
   }
 
+
+file { '/etc/proftpd/sql.conf':
+  ensure  => file,
+  owner   => root,
+  group   => root,
+  mode    => '0644',
+  content => template("${module_name}/sql.conf.erb"),
+  require => File['/etc/proftpd']
+}
+
   service { 'proftpd':
     ensure     => running,
     hasstatus  => true,

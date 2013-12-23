@@ -4,7 +4,7 @@
 
 # This is the directory where DSO modules reside
 
-ModulePath /usr/libexec/proftpd
+#ModulePath /usr/libexec/proftpd
 
 # Allow only user root to load and unload modules, but allow everyone
 # to see which modules have been loaded
@@ -12,10 +12,10 @@ ModulePath /usr/libexec/proftpd
 ModuleControlsACLs insmod,rmmod allow user root
 ModuleControlsACLs lsmod allow user *
 
-LoadModule mod_ctrls_admin.c
+#LoadModule mod_ctrls_admin.c
 #LoadModule mod_tls.c
 LoadModule mod_sql.c
-LoadModule mod_ldap.c
+#LoadModule mod_ldap.c
 LoadModule mod_sql_mysql.c
 LoadModule mod_sql_postgres.c
 #LoadModule mod_quotatab.c
@@ -23,9 +23,9 @@ LoadModule mod_sql_postgres.c
 #LoadModule mod_quotatab_ldap.c
 #LoadModule mod_quotatab_sql.c
 #LoadModule mod_radius.c
-LoadModule mod_wrap.c
-LoadModule mod_rewrite.c
-LoadModule mod_sftp.c
+#LoadModule mod_wrap.c
+#LoadModule mod_rewrite.c
+#LoadModule mod_sftp.c
 LoadModule mod_sftp_sql.c
 
 # keep this module the last one

@@ -70,6 +70,8 @@ define proftpd::instance::ftp(
       replace => false
     }
 
+
+
     file { "/etc/proftpd/users.d/${vhost_name}.group":
       ensure  => file,
       owner   => root,
