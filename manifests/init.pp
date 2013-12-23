@@ -12,7 +12,7 @@
 #
 class proftpd {
 
-  package { ['proftpd','proftpd-mysql','proftpd-postgresql']:
+  package { ['proftpd','proftpd-basic','proftpd-mod-mysql']:
     ensure => present
   }
 
