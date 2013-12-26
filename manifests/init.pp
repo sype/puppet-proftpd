@@ -38,7 +38,7 @@ class proftpd {
     group   => root,
     mode    => '0644',
     content => template("${module_name}/proftpd.conf.erb"),
-    replace => false,
+    replace => yes,
     require => Package['proftpd']
   }
 
