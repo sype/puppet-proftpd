@@ -12,7 +12,7 @@ Include /etc/proftpd/sql.conf
 Include /etc/proftpd/sites.d/*
 UseIPv6                         off
 
-AuthOrder mod_sql.c
+AuthOrder mod_sql.c mod_auth_file.c
 
 Port 0 
 SocketBindTight on
@@ -52,8 +52,8 @@ LogFormat                       default "%h %l %u %t \"%r\" %s %b"
 LogFormat                       auth    "%v [%P] %h %t \"%r\" %s"
 
 <IfDefine TLS>
-  TLSEngine                     on
-  TLSRequired                   on
+  TLSEngine                     off
+  TLSRequired                   off
   TLSRSACertificateFile         /etc/pki/tls/certs/proftpd.pem
   TLSRSACertificateKeyFile      /etc/pki/tls/certs/proftpd.pem
   TLSCipherSuite                ALL:!ADH:!DES
@@ -79,9 +79,9 @@ LogFormat                       auth    "%v [%P] %h %t \"%r\" %s"
   </Limit>
 
 <IfModule mod_lang.c>
-        LangEngine on
+        LangEngine off
         LangDefault en_US
-        UseEncoding on
+        UseEncoding off
 </IfModule>
 
 </Global>
