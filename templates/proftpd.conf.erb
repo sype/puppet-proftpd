@@ -9,13 +9,15 @@
 # Sites will be loaded at the end of the configuration
 Include /etc/proftpd/modules.conf
 Include /etc/proftpd/sql.conf
-
+Include /etc/proftpd/sites.d/*
 UseIPv6                         off
 
-Port 0
+AuthOrder mod_sql.c
+
+Port 0 
 SocketBindTight on
 
-VRootEngine                     on
+#VRootEngine                     on
 DefaultRoot                     ~ !adm
 RequireValidShell               off
 TimesGMT                        off
@@ -78,10 +80,9 @@ LogFormat                       auth    "%v [%P] %h %t \"%r\" %s"
 
 <IfModule mod_lang.c>
         LangEngine on
-        LangDefault en_FR
+        LangDefault en_US
         UseEncoding on
 </IfModule>
 
 </Global>
 
-Include /etc/proftpd/sites.d/*
