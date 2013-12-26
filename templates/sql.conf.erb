@@ -1,32 +1,56 @@
 SQLBackend        mysql
 
 #Passwords in MySQL are encrypted using CRYPT
-SQLAuthTypes            OpenSSL Crypt
-SQLAuthenticate         users groups
+SQLAuthTypes            Plaintext Crypt
+SQLAuthenticate         users* groups*
 
 
 # used to connect to the database
 # databasename@host database_user user_password
-SQLConnectInfo  ptoftpd@192.168.0.60 proftpd gallis1780
+SQLConnectInfo  proftpd@192.168.0.60 proftpd gallis1780
 
 
 # Here we tell ProFTPd the names of the database columns in the "usertable"
 # we want it to interact with. Match the names with those in the db
-SQLUserInfo     ftpuser userid passwd uid gid homedir shell
+SQLUserInfo     ftp_users userid passwd uid gid home shell
 
 # Here we tell ProFTPd the names of the database columns in the "grouptable"
 # we want it to interact with. Again the names match with those in the db
-SQLGroupInfo    ftpgroup groupname gid members
+SQLGroupInfo    ftp_group groupname gid members
 
 # set min UID and GID - otherwise these are 999 each
 SQLMinID        500
 
 # Update count every time user logs in
 SQLLog PASS updatecount
-SQLNamedQuery updatecount UPDATE "count=count+1, accessed=now() WHERE userid='%u'" ftpuser
+SQLNamedQuery updatecount UPDATE "count=count+1, accessed=now() WHERE userid='%u'" ftp_users
 
 # Update modified everytime user uploads or deletes a file
 SQLLog  STOR,DELE modified
-SQLNamedQuery modified UPDATE "modified=now() WHERE userid='%u'" ftpuser
+SQLNamedQuery modified UPDATE "modified=now() WHERE userid='%u'" ftp_users
 
+
+###########QUOTA SYSTEM TO TEST####################
+# Definit les requetes SQL pour que ProFTPd recupere les infos sur les quotas
+#SQLNamedQuery get-quota-limit SELECT "name, quota_type, par_session, limit_type, bytes_up_limit, bytes_down_limit, bytes_transfer_limit, files_up_limit, files_down_limit, files_transfer_limit FROM ftpquotalimits WHERE name = '%{0}' AND quota_type = '%{1}'"
+#SQLNamedQuery get-quota-tally SELECT "name, quota_type, bytes_up_total, bytes_down_total, bytes_transfer_total, files_up_total, files_down_total, files_transfer_total FROM ftpquotatotal WHERE name = '%{0}' AND quota_type = '%{1}'"
+#SQLNamedQuery update-quota-tally UPDATE "bytes_up_total = bytes_up_total + %{0}, bytes_down_total = bytes_down_total + %{1}, bytes_transfer_total = bytes_transfer_total + %{2}, files_up_total = files_up_total + %{3}, files_down_total = files_down_total + %{4}, files_transfer_total = files_transfer_total + %{5} WHERE name = '%{6}' AND quota_type = '%{7}'" ftpquotatotal
+#SQLNamedQuery insert-quota-tally INSERT "%{0}, %{1}, %{2}, %{3}, %{4}, %{5}, %{6}, %{7}" ftpquotatotal
+
+# Mod quota
+# =========
+#QuotaEngine on
+#QuotaDirectoryTally on
+#QuotaDisplayUnits Mb
+#QuotaShowQuotas on
+
+# Gestion des logs#################
 SqlLogFile /var/log/proftpd/sql.log
+# Enregistre les authentifications
+LogFormat auth "%v [%P] %h %t \"%r\" %s"
+ExtendedLog /var/log/proftpd/auth.log AUTH auth
+
+
+# Enregistre les acces aux fichiers
+LogFormat write "%h %l %u %t \"%r\" %s %b"
+ExtendedLog /var/log/proftpd/access.log WRITE,READ write

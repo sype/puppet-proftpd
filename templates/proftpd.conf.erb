@@ -9,13 +9,15 @@
 # Sites will be loaded at the end of the configuration
 Include /etc/proftpd/modules.conf
 Include /etc/proftpd/sql.conf
-
+Include /etc/proftpd/sites.d/*
 UseIPv6                         off
 
-Port 0
+AuthOrder mod_sql.c
+
+Port 0 
 SocketBindTight on
 
-VRootEngine                     on
+#VRootEngine                     on
 DefaultRoot                     ~ !adm
 RequireValidShell               off
 TimesGMT                        off
@@ -64,6 +66,10 @@ LogFormat                       auth    "%v [%P] %h %t \"%r\" %s"
   </IfModule>
 </IfDefine>
 
+<IfModule mod_sql.c>
+ SQLBackend            mysql
+</IfModule>
+
 <Global>
   Umask                         022
   CreateHome on 750 uid 101 gid 65534
@@ -80,4 +86,3 @@ LogFormat                       auth    "%v [%P] %h %t \"%r\" %s"
 
 </Global>
 
-Include /etc/proftpd/sites.d/*

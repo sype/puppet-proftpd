@@ -32,13 +32,13 @@ class proftpd {
     require => File['/etc/proftpd']
   }
 
-  file { '/etc/proftpd.conf':
+  file { '/etc/proftpd/proftpd.conf':
     ensure  => file,
     owner   => root,
     group   => root,
     mode    => '0644',
     content => template("${module_name}/proftpd.conf.erb"),
-    replace => false,
+    replace => true,
     require => Package['proftpd']
   }
 
@@ -65,7 +65,7 @@ file { '/etc/proftpd/sql.conf':
     ensure     => running,
     hasstatus  => true,
     hasrestart => true,
-    subscribe  => [ File['/etc/proftpd.conf'], File['/etc/proftpd/modules.conf'] ]
+    subscribe  => [ File['/etc/proftpd/proftpd.conf'], File['/etc/proftpd/modules.conf'] ]
   }
 
   user { 'proftpd':
