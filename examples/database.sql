@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `ftplog` (
   KEY `username` (`username`),
   KEY `protocol` (`protocol`),
   KEY `command` (`command`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=96728577 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=96728577 ;
 
 -- --------------------------------------------------------
 
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `ftp_group` (
   `gid` int(7) NOT NULL default '65534',
   `members` varchar(16) NOT NULL default '',
   KEY `groupname` (`groupname`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='ProFTP group table';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='ProFTP group table';
 
 -- --------------------------------------------------------
 
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `ftp_users` (
   `migrated` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `userid` (`userid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=556 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=556 ;
 
 -- --------------------------------------------------------
 
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `sftp_hostkeys` (
   `host` varchar(255) NOT NULL,
   `sshkey` varchar(255) NOT NULL,
   KEY `sftphostkeys_idx` (`host`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -108,4 +108,48 @@ CREATE TABLE IF NOT EXISTS `sftp_userkeys` (
   `sshkey` text NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `sftpuserkeys_idx` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=87 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=87 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ftp_quotalimits`
+--
+REATE TABLE `ftp_quotalimits` (
+`name` VARCHAR(30) DEFAULT NULL,
+`quota_type` enum('user','group','class','all') NOT NULL DEFAULT 'user',
+`par_session` enum('false','true') NOT NULL DEFAULT 'false',
+`limit_type` enum('soft','hard') NOT NULL DEFAULT 'soft',
+`bytes_up_limit` FLOAT NOT NULL DEFAULT '0',
+`bytes_down_limit` FLOAT NOT NULL DEFAULT '0',
+`bytes_transfer_limit` FLOAT NOT NULL DEFAULT '0',
+`files_up_limit` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+`files_down_limit` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+`files_transfer_limit` INT(10) UNSIGNED NOT NULL DEFAULT '0'
+) Engine=InnoDB COMMENT='Table des quotas ProFTPD';
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ftp_quotatotal`
+--
+
+
+CREATE TABLE `ftp_quotatotal` (
+`name` VARCHAR(30) NOT NULL DEFAULT '',
+`quota_type` enum('user','group','class','all') NOT NULL DEFAULT 'user',
+`bytes_up_total` FLOAT NOT NULL DEFAULT '0',
+`bytes_down_total` FLOAT NOT NULL DEFAULT '0',
+`bytes_transfer_total` FLOAT NOT NULL DEFAULT '0',
+`files_up_total` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+`files_down_total` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+`files_transfer_total` INT(10) UNSIGNED NOT NULL DEFAULT '0'
+) Engine=InnoDB COMMENT='Table des compteurs des quotas ProFTPD';
+
+
+
+
+INSERT INTO `ftp_user` ( `id`, `userid`, `passwd`, `uid`, `gid`, `homedir`, `shell`, `count`, `accessed` , `modified`, `LoginAllowed` ) VALUES
+ ('', 'test', ENCRYPT('gallis1780','33','33', '/var/www/','/bin/false', '', '', '', 'true' );
