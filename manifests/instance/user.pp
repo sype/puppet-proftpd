@@ -1,18 +1,20 @@
 define proftpd::instance::user(
   $ipaddress=undef,
+  $server_name=undef,
   $port=undef,
   $username=undef,
   $password=undef,
   $uid=undef,
   $gid=undef,
   $comment='',
-  $home="/home/${username}",
   $ensure = present
 ) {
 
   include proftpd
 
-  $vhost_name = "${ipaddress}_${port}"
+  $vhost_name = "${server_name}"
+  $home="/var/www/${vhost_name}"
+
 
   Augeas {
     lens      => 'Passwd.lns',

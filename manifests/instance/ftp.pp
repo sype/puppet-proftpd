@@ -3,7 +3,7 @@ define proftpd::instance::ftp(
   $port='21',
   $server_name='FTP server',
   $server_ident='FTP server ready',
-  $server_admin='root@server',
+  $server_admin='sype@beezzonline.com',
   $logdir=undef,
   $max_clients='45',
   $max_loginattempts='3',
