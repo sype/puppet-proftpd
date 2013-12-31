@@ -50,7 +50,7 @@ define proftpd::instance::user(
       {
         augeas { "${vhost_name}.passwd/${username}/add" :
           changes   => [
-            "set [last()+1] ${username}",
+            #"set [last()+1] ${username}",
             "set ${username}/password ${password}",
             "set ${username}/uid ${uid_real}",
             "set ${username}/gid ${gid_real}",

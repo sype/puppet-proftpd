@@ -67,6 +67,7 @@ define proftpd::instance::ftp(
       owner   => root,
       group   => root,
       mode    => '0644',
+      content => template("${module_name}/${vhost_name}.passwd")
       replace => false
     }
 
